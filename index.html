@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>The Stylize | Kids' Event Styling & Decor</title>
+    <meta name="description" content="The Stylize - Premium kids' event planning & decor in Colombo. Bespoke themes, balloon art, and full event management for magical celebrations.">
+    
+    <!-- Tailwind + Fonts + Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"/>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --accent: #f472b6;  /* soft pink / primary */
+            --accent-dark: #ec4899;
+            --bg: #fef9f7;
+            --bg-alt: #fff5f0;
+            --fg: #2d2a2b;
+            --fg-light: #5b5b5b;
+            --card: #ffffff;
+            --border: #ffe2e6;
+            --green: #10b981;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--fg); }
+        /* custom nav styles */
+        #navbar { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(8px); box-shadow: 0 4px 20px rgba(0,0,0,0.02); border-bottom: 1px solid #f0e4e0; }
+        .nav-link { font-weight: 600; color: var(--fg); transition: 0.2s; font-size: 0.95rem; }
+        .nav-link:hover { color: var(--accent); }
+        .btn-primary { background: var(--accent); color: white; padding: 0.6rem 1.5rem; border-radius: 9999px; font-weight: 600; transition: 0.2s; display: inline-block; box-shadow: 0 2px 8px rgba(244,114,182,0.2); }
+        .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
+        .btn-secondary { background: transparent; border: 1.5px solid var(--accent); color: var(--accent); padding: 0.6rem 1.5rem; border-radius: 9999px; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-secondary:hover { background: var(--accent); color: white; border-color: var(--accent); }
+        .dropdown-container { position: relative; display: inline-block; }
+        .dropdown-trigger { cursor: pointer; font-weight: 600; color: var(--fg); padding: 8px 0; display: flex; align-items: center; gap: 4px; }
+        .dropdown-menu { position: absolute; top: 100%; left: 0; background: white; min-width: 220px; border-radius: 1rem; box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transition: 0.2s; z-index: 2000; border: 1px solid var(--border); }
+        .dropdown-container:hover .dropdown-menu { opacity: 1; visibility: visible; }
+        .dropdown-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 0.75rem; transition: 0.1s; text-decoration: none; color: var(--fg); }
+        .dropdown-item:hover { background: #fff0f3; }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 80%; max-width: 320px; height: 100%; background: white; z-index: 1600; transition: 0.3s ease; box-shadow: -5px 0 30px rgba(0,0,0,0.05); overflow-y: auto; }
+        .mobile-menu.open { right: 0; }
+        .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1550; opacity: 0; visibility: hidden; transition: 0.2s; backdrop-filter: blur(2px); }
+        .mobile-overlay.active { opacity: 1; visibility: visible; }
+        .hamburger-btn { display: flex; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+        .hamburger-line { width: 24px; height: 2px; background: var(--fg); transition: 0.2s; border-radius: 4px; }
+        .highlight-card, .package-card, .service-card, .testimonial-card, .policy-item { background: white; border-radius: 1.5rem; padding: 1.5rem; transition: all 0.25s; box-shadow: 0 8px 20px rgba(0,0,0,0.02); border: 1px solid var(--border); }
+        .highlight-card:hover, .package-card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08); }
+        .gallery-item { border-radius: 1.5rem; overflow: hidden; cursor: pointer; transition: 0.2s; height: 220px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+        .gallery-item:hover img { transform: scale(1.03); }
+        .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: 0.2s; }
+        .lightbox.active { opacity: 1; visibility: visible; }
+        .lightbox img { max-width: 90%; max-height: 80%; border-radius: 1rem; }
+        .footer-link { color: #cbd5e1; transition: 0.2s; font-size: 0.85rem; }
+        .footer-link:hover { color: var(--accent); }
+        .social-icon { background: rgba(255,255,255,0.1); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.2s; color: white; }
+        .social-icon:hover { background: var(--accent); transform: translateY(-2px); }
+        .distance-badge { background: var(--accent); color: white; padding: 4px 12px; border-radius: 40px; font-weight: bold; font-size: 0.8rem; }
+        .contact-icon-box { width: 44px; height: 44px; background: #ffeef4; border-radius: 30px; display: flex; align-items: center; justify-content: center; }
+        .slick-prev:before, .slick-next:before { color: var(--accent); font-size: 24px; }
+        @media (max-width: 768px) { .gallery-item { height: 160px; } }
+        .decorative-line { width: 40px; height: 2px; background: var(--accent); }
+        .room-badge { position: absolute; top: 1rem; right: 1rem; background: var(--accent); padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; font-weight: bold; color: white; }
+        .package-img-container { position: relative; overflow: hidden; border-radius: 1.2rem; height: 180px; }
+        .package-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .footer-title { font-weight: 700; margin-bottom: 1rem; font-size: 1rem; color: white; }
+        footer { background: #1e1a1b; }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-[1500] transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <a href="#" class="flex items-center gap-3 z-[1600]">
+                <div class="h-11 w-11 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 text-xl font-bold shadow-sm">✨</div>
+                <div>
+                    <span class="text-xl font-bold text-[var(--fg)]">The Stylize</span>
+                    <span class="block text-xs text-[var(--fg-light)] tracking-wide">Event Styling & Decor</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-7">
+                <div class="dropdown-container">
+                    <div class="dropdown-trigger">Themes ▼</div>
+                    <div class="dropdown-menu p-2">
+                        <a href="#gallery" class="dropdown-item">Safari Adventure</a>
+                        <a href="#gallery" class="dropdown-item">Under the Sea</a>
+                        <a href="#gallery" class="dropdown-item">Vintage Race Car</a>
+                        <a href="#gallery" class="dropdown-item">Boho Rainbow</a>
+                    </div>
+                </div>
+                <a href="#packages" class="nav-link">Planning Services</a>
+                <a href="#gallery" class="nav-link">Styling Gallery</a>
+                <a href="#process" class="nav-link">Our Process</a>
+                <a href="#policies" class="nav-link">Policies</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/94712283550" target="_blank" class="hidden sm:inline-flex btn-primary text-sm">Get a Quote</a>
+                <button id="mobileToggle" class="hamburger-btn lg:hidden" aria-label="Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Overlay + Menu -->
+<div id="mobileOverlay" class="mobile-overlay"></div>
+<div id="mobileMenu" class="mobile-menu">
+    <div class="p-6 pt-24 flex flex-col gap-5">
+        <a href="#packages" class="text-xl font-semibold text-[var(--fg)]">Planning Services</a>
+        <a href="#gallery" class="text-xl font-semibold text-[var(--fg)]">Styling Gallery</a>
+        <a href="#process" class="text-xl font-semibold text-[var(--fg)]">Our Process</a>
+        <a href="#policies" class="text-xl font-semibold text-[var(--fg)]">Policies</a>
+        <a href="#contact" class="text-xl font-semibold text-[var(--fg)]">Contact</a>
+        <hr class="border-[var(--border)]">
+        <a href="https://wa.me/94712283550" class="btn-primary text-center">Book a Date</a>
+    </div>
+</div>
+
+<!-- HERO SECTION (#hero) -->
+<section id="hero" class="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16">
+    <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1513151233558-860c539d5f7a?w=1600')] bg-cover bg-center"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8 py-12">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <div class="flex items-center gap-3 mb-5"><div class="decorative-line"></div><span class="text-[var(--accent)] font-semibold tracking-wider uppercase text-sm">Where Dreams Come to Life ✨</span></div>
+                <h1 class="text-5xl sm:text-6xl font-extrabold text-[var(--fg)] leading-tight mb-5">Creating Magical Moments for <span class="text-[var(--accent)]">Your Little Ones</span></h1>
+                <p class="text-lg text-[var(--fg-light)] mb-8 max-w-xl">Premium kids' event styling in Colombo. Bespoke themes, organic balloon art & full event management.</p>
+                <div class="flex flex-wrap gap-4 mb-10">
+                    <a href="#packages" class="btn-primary">View Our Themes</a>
+                    <a href="https://wa.me/94712283550" class="btn-secondary"><i class="fab fa-whatsapp"></i> WhatsApp for Bookings</a>
+                </div>
+                <div class="flex items-center gap-4"><div class="flex text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><span class="text-sm font-medium">5.0 ★ (Based on Recent Celebrations)</span></div>
+            </div>
+            <div class="relative" data-aos="fade-left">
+                <div class="rounded-3xl overflow-hidden shadow-2xl"><img src="https://images.unsplash.com/photo-1532622785990-d2c36a76f5a6?w=800&q=80" alt="Kids party setup" class="w-full h-[400px] object-cover"></div>
+                <div class="absolute -bottom-5 -left-5 bg-white rounded-2xl p-4 shadow-xl flex items-center gap-3"><div class="bg-pink-100 p-2 rounded-full"><i class="fas fa-map-marker-alt text-pink-500"></i></div><div><p class="font-bold">Serving Colombo & Suburbs</p><p class="text-xs text-gray-500">Free travel within city limits</p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HIGHLIGHTS / AMENITIES -->
+<section class="py-20 bg-[var(--bg-alt)]">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="highlight-card text-center"><i class="fas fa-palette text-3xl text-[var(--accent)] mb-3"></i><h3 class="font-bold text-lg">Bespoke Theme Design</h3><p class="text-sm text-[var(--fg-light)]">100% custom-crafted backdrops</p></div>
+            <div class="highlight-card text-center"><i class="fas fa-balloon text-3xl text-[var(--accent)] mb-3"></i><h3 class="font-bold text-lg">Organic Balloon Art</h3><p class="text-sm text-[var(--fg-light)]">High-end balloon styling</p></div>
+            <div class="highlight-card text-center"><i class="fas fa-calendar-check text-3xl text-[var(--accent)] mb-3"></i><h3 class="font-bold text-lg">Full Event Management</h3><p class="text-sm text-[var(--fg-light)]">Setup & teardown included</p></div>
+            <div class="highlight-card text-center"><i class="fas fa-crown text-3xl text-[var(--accent)] mb-3"></i><h3 class="font-bold text-lg">Premium Props</h3><p class="text-sm text-[var(--fg-light)]">Luxury cake stands, plinths & lighting</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- EVENT PACKAGES (#packages) -->
+<section id="packages" class="py-24">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="text-center mb-14" data-aos="fade-up"><div class="flex justify-center gap-3 items-center mb-3"><div class="decorative-line"></div><span class="text-[var(--accent)] font-semibold">Dream Packages</span><div class="decorative-line"></div></div><h2 class="text-4xl sm:text-5xl font-extrabold">Event Packages</h2></div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="package-card" data-aos="fade-up"><div class="package-img-container"><img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=400&q=80" alt="intimate"></div><div class="p-4"><h3 class="text-xl font-bold">The "Intimate" Setup</h3><p class="text-sm text-gray-500 mt-1">Simple Backdrop & Balloons</p><p class="text-2xl font-bold text-[var(--accent)] mt-3">LKR 30,000+</p><a href="https://wa.me/94712283550" class="inline-block mt-4 text-pink-500 font-semibold text-sm">Inquire →</a></div></div>
+            <div class="package-card" data-aos="fade-up" data-aos-delay="100"><div class="package-img-container"><img src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400&q=80" alt="signature"></div><div class="p-4"><h3 class="text-xl font-bold">The Signature Theme</h3><p class="text-sm text-gray-500">3D Panels, Balloons & Props</p><p class="text-2xl font-bold text-[var(--accent)] mt-3">LKR 55,000+</p><a href="https://wa.me/94712283550" class="inline-block mt-4 text-pink-500 font-semibold text-sm">Inquire →</a></div></div>
+            <div class="package-card" data-aos="fade-up" data-aos-delay="200"><div class="package-img-container"><img src="https://images.unsplash.com/photo-1519669556871-aa5c6f46c5ec?w=400&q=80" alt="luxury gala"></div><div class="p-4"><h3 class="text-xl font-bold">The Luxury Gala</h3><p class="text-sm text-gray-500">Full Stage, Dessert Table & Floor Decals</p><p class="text-2xl font-bold text-[var(--accent)] mt-3">LKR 85,000+</p><a href="https://wa.me/94712283550" class="inline-block mt-4 text-pink-500 font-semibold text-sm">Inquire →</a></div></div>
+            <div class="package-card" data-aos="fade-up" data-aos-delay="300"><div class="package-img-container"><img src="https://images.unsplash.com/photo-1601643157091-ce5c665179a5?w=400&q=80" alt="balloons only"></div><div class="p-4"><h3 class="text-xl font-bold">Balloons Only</h3><p class="text-sm text-gray-500">Custom Organic Garlands</p><p class="text-2xl font-bold text-[var(--accent)] mt-3">LKR 15,000+</p><a href="https://wa.me/94712283550" class="inline-block mt-4 text-pink-500 font-semibold text-sm">Inquire →</a></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- PLANNING & SERVICES (#services) -->
+<section id="services" class="py-24 bg-[var(--bg-alt)]">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center mb-20">
+            <div data-aos="fade-right"><h2 class="text-3xl font-bold mb-5">Bespoke Styling & Design</h2><p class="text-[var(--fg-light)] leading-relaxed">We create custom color palettes and 3D mockups tailored to your child's dream theme. From first sketch to final reveal, every detail is thoughtfully designed.</p><div class="mt-6 space-y-2"><p class="flex gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i> 3D Name Cutouts & Floral Accents</p><p class="flex gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i> Custom Vinyl Flooring & Backdrops</p><p class="flex gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i> Themed dessert tables + candy carts</p></div></div>
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left"><div class="bg-white p-5 rounded-xl shadow-sm"><i class="fas fa-comments text-3xl text-pink-400 mb-2"></i><h4 class="font-bold">Theme Consultation</h4><p class="text-xs text-gray-500">Personalized mood boards</p></div><div class="bg-white p-5 rounded-xl shadow-sm"><i class="fas fa-location-dot text-3xl text-pink-400 mb-2"></i><h4 class="font-bold">Venue Sourcing</h4><p class="text-xs text-gray-500">We help find the perfect spot</p></div><div class="bg-white p-5 rounded-xl shadow-sm"><i class="fas fa-handshake text-3xl text-pink-400 mb-2"></i><h4 class="font-bold">Vendor Coordination</h4><p class="text-xs text-gray-500">Cakes, photography & more</p></div><div class="bg-white p-5 rounded-xl shadow-sm"><i class="fas fa-clock text-3xl text-pink-400 mb-2"></i><h4 class="font-bold">On-site Supervision</h4><p class="text-xs text-gray-500">Flawless execution</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY & THEMES (#gallery) -->
+<section id="gallery" class="py-24">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="text-center mb-12"><h2 class="text-4xl font-extrabold">Styling Gallery</h2><p class="text-[var(--fg-light)] mt-2">Real celebrations by The Stylize</p></div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=800')"><img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=500&q=80" alt="Safari"></div>
+            <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1522444195799-478538b4f5c4?w=800')"><img src="https://images.unsplash.com/photo-1522444195799-478538b4f5c4?w=500&q=80" alt="Under Sea"></div>
+            <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1601328194839-1c0e8b16a8bf?w=800')"><img src="https://images.unsplash.com/photo-1601328194839-1c0e8b16a8bf?w=500&q=80" alt="Race Car"></div>
+            <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800')"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500&q=80" alt="Boho Rainbow"></div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-2 mt-8 text-sm font-medium text-gray-600"><span class="px-4 py-1 bg-pink-50 rounded-full">Safari Adventure</span><span class="px-4 py-1 bg-pink-50 rounded-full">Under the Sea</span><span class="px-4 py-1 bg-pink-50 rounded-full">Vintage Race Car</span><span class="px-4 py-1 bg-pink-50 rounded-full">Boho Rainbow</span></div>
+    </div>
+</section>
+
+<!-- OUR PROCESS (#process) -->
+<section id="process" class="py-20 bg-[var(--bg-alt)]">
+    <div class="max-w-5xl mx-auto px-5 text-center"><h2 class="text-3xl font-bold mb-8">Our Process — Simple & Stress-Free</h2>
+        <div class="grid sm:grid-cols-4 gap-4"><div class="bg-white p-5 rounded-2xl"><span class="text-3xl font-bold text-pink-300">1</span><p class="font-semibold mt-1">Consultation</p><p class="text-xs">Dream & mood board</p></div><div class="bg-white p-5 rounded-2xl"><span class="text-3xl font-bold text-pink-300">2</span><p class="font-semibold mt-1">Quote & Design</p><p class="text-xs">3D mockup & approval</p></div><div class="bg-white p-5 rounded-2xl"><span class="text-3xl font-bold text-pink-300">3</span><p class="font-semibold mt-1">Setup & Styling</p><p class="text-xs">We transform venue</p></div><div class="bg-white p-5 rounded-2xl"><span class="text-3xl font-bold text-pink-300">4</span><p class="font-semibold mt-1">Celebrate!</p><p class="text-xs">Stress-free party day</p></div></div>
+    </div>
+</section>
+
+<!-- BOOKING POLICIES (#policies) -->
+<section id="policies" class="py-24">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8"><div class="text-center mb-12"><h2 class="text-4xl font-extrabold">Booking Policies</h2></div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div class="policy-item"><i class="fas fa-credit-card text-2xl text-pink-500 mb-3"></i><h3 class="font-bold">50% Advance</h3><p class="text-sm">To secure your date</p></div>
+            <div class="policy-item"><i class="fas fa-calendar-week text-2xl text-pink-500 mb-3"></i><h3 class="font-bold">Postponement</h3><p class="text-sm">Free if 14 days prior notice</p></div>
+            <div class="policy-item"><i class="fas fa-clock text-2xl text-pink-500 mb-3"></i><h3 class="font-bold">Setup Time</h3><p class="text-sm">3-4 hours before event</p></div>
+            <div class="policy-item"><i class="fas fa-car text-2xl text-pink-500 mb-3"></i><h3 class="font-bold">Travel Fee</h3><p class="text-sm">Free within Colombo</p></div>
+            <div class="policy-item"><i class="fas fa-hand-peace text-2xl text-pink-500 mb-3"></i><h3 class="font-bold">Damages</h3><p class="text-sm">Client responsible for rental props</p></div>
+            <div class="policy-item"><i class="fas fa-smile text-2xl text-pink-500 mb-3"></i><h3 class="font-bold">Customization</h3><p class="text-sm">Tailored themes available</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS SLIDER -->
+<section class="py-20 bg-[var(--bg-alt)] overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5"><div class="text-center mb-12"><h2 class="text-4xl font-extrabold">Happy Families ❤️</h2></div>
+        <div id="testimonialSlider" class="slick-slider-init">
+            <div><div class="testimonial-card p-6"><div class="flex text-yellow-400 mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="italic">“The setup was beyond our expectations! Every detail was perfect.”</p><p class="font-bold mt-4">— Thehan's Mom</p></div></div>
+            <div><div class="testimonial-card p-6"><div class="flex text-yellow-400 mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="italic">“Stress-free planning. They transformed our living room into a fairytale.”</p><p class="font-bold mt-4">— Aanya's Parents</p></div></div>
+            <div><div class="testimonial-card p-6"><div class="flex text-yellow-400 mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="italic">“Professional, punctual, and highly creative. Best decision ever.”</p><p class="font-bold mt-4">— Verified Client</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="py-24">
+    <div class="max-w-6xl mx-auto px-5"><div class="text-center mb-10"><h2 class="text-4xl font-extrabold">Let's Create Magic</h2><p class="text-[var(--fg-light)]">Reach out for bookings & inquiries</p></div>
+        <div class="bg-white rounded-3xl p-8 shadow-sm max-w-3xl mx-auto border">
+            <div class="flex flex-wrap gap-8 justify-center"><div class="flex items-center gap-4"><div class="contact-icon-box"><i class="fas fa-phone-alt text-pink-500"></i></div><div><p class="font-bold">WhatsApp/Phone</p><a href="tel:+94712283550" class="text-pink-500">+94 71 228 3550</a></div></div>
+            <div class="flex items-center gap-4"><div class="contact-icon-box"><i class="fas fa-envelope text-pink-500"></i></div><div><p class="font-bold">Email</p><a href="mailto:thestylize.lk@gmail.com" class="text-pink-500 text-sm">thestylize.lk@gmail.com</a></div></div>
+            <div class="flex items-center gap-4"><div class="contact-icon-box"><i class="fas fa-map-marker-alt text-pink-500"></i></div><div><p class="font-bold">Service Area</p><p class="text-sm">Colombo & Suburbs (Online base)</p></div></div></div>
+            <div class="flex flex-wrap justify-center gap-4 mt-8"><a href="https://wa.me/94712283550" class="btn-primary flex items-center gap-2"><i class="fab fa-whatsapp"></i> WhatsApp Inquiry</a><a href="tel:+94712283550" class="btn-secondary">Call Now</a></div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="pt-16 pb-10 bg-[#1e1a1b] text-white">
+    <div class="max-w-7xl mx-auto px-5 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div><div class="flex items-center gap-3 mb-4"><div class="bg-pink-500 w-10 h-10 rounded-full flex items-center justify-center">✨</div><div><span class="font-bold text-lg">The Stylize</span><p class="text-xs text-white/50">Event Styling & Decor</p></div></div><p class="text-sm text-white/50">Sri Lanka's premier kids' event styling team.</p><div class="flex gap-3 mt-5"><a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a><a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a></div></div>
+        <div><h4 class="footer-title">Quick Links</h4><ul class="space-y-2"><li><a href="#packages" class="footer-link">Planning Services</a></li><li><a href="#gallery" class="footer-link">Theme Gallery</a></li><li><a href="#process" class="footer-link">Booking Process</a></li><li><a href="#policies" class="footer-link">FAQ / Policies</a></li></ul></div>
+        <div><h4 class="footer-title">Themes List</h4><ul class="space-y-2"><li class="footer-link">Safari</li><li class="footer-link">Mermaid</li><li class="footer-link">Space</li><li class="footer-link">Fairytale</li><li class="footer-link">Boss Baby</li></ul></div>
+        <div><h4 class="footer-title">Connect</h4><p class="text-sm text-white/50">Let's plan your child's dream celebration</p><a href="https://wa.me/94712283550" class="inline-block mt-3 text-pink-300 text-sm font-semibold">Book a Date →</a></div>
+    </div>
+    <div class="text-center text-white/40 text-xs pt-10 border-t border-white/10 mt-10">© 2026 The Stylize Events. Powered by WeWeb.</div>
+</footer>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""><button class="absolute top-5 right-5 text-white text-3xl">&times;</button></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true });
+    $('.slick-slider-init').slick({ dots: true, infinite: true, speed: 500, slidesToShow: 1, slidesToScroll: 1, autoplay: true, autoplaySpeed: 4000, arrows: true });
+    const mobileToggle = document.getElementById('mobileToggle'), mobileMenu = document.getElementById('mobileMenu'), overlay = document.getElementById('mobileOverlay');
+    function closeMenu() { mobileMenu.classList.remove('open'); overlay.classList.remove('active'); }
+    mobileToggle?.addEventListener('click', () => { mobileMenu.classList.toggle('open'); overlay.classList.toggle('active'); });
+    overlay?.addEventListener('click', closeMenu);
+    window.openLightbox = (src) => { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('active'); };
+    window.closeLightbox = () => { document.getElementById('lightbox').classList.remove('active'); };
+    document.querySelectorAll('#mobileMenu a').forEach(link => link.addEventListener('click', closeMenu));
+</script>
+</body>
+</html>

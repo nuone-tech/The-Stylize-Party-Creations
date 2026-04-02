@@ -1,0 +1,993 @@
+:root {
+  --bg: #fdf9f4;
+  --bg-alt: #f7f1e8;
+  --fg: #2d2621;
+  --fg-light: #5c534a;
+  --accent: #b8944e;
+  --accent-dark: #9a7a3e;
+  --green: #6b8e6b;
+  --green-light: #8bae8b;
+  --card: #ffffff;
+  --border: #e8dfd3;
+  --muted: #c4b8a8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Navigation Styles */
+.nav-blur {
+  backdrop-filter: blur(20px);
+  background: rgba(253, 249, 244, 0.9);
+}
+
+.nav-link {
+  position: relative;
+  color: var(--fg);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+/* Dropdown Styles */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--fg);
+  transition: color 0.3s ease;
+}
+
+.dropdown-trigger:hover {
+  color: var(--accent);
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-container.active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 320px;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(45, 38, 33, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.dropdown-container.active .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  transition: background 0.3s ease;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.dropdown-item:hover {
+  background: var(--bg-alt);
+}
+
+.dropdown-item img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Button styles */
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    var(--accent-dark) 100%
+  );
+  color: white;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(184, 148, 78, 0.35);
+}
+
+.btn-secondary {
+  background: var(--green);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: var(--green-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(107, 142, 107, 0.35);
+}
+
+/* Mobile Menu Container */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 320px;
+  height: 100%;
+  background: var(--bg);
+  z-index: 1400;
+  /* Lower than Navbar */
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -20px 0 60px rgba(45, 38, 33, 0.2);
+  overflow-y: auto;
+  /* Allow scroll if menu is long */
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(45, 38, 33, 0.5);
+  z-index: 1300;
+  /* Lower than Navbar */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile Accordion Styles */
+.mobile-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.mobile-accordion-content.active {
+  max-height: 200px;
+  /* Adjust based on content height */
+}
+
+/* Hamburger / X Button Logic */
+.hamburger-btn {
+  z-index: 1600;
+  /* Highest, inside the high-z nav */
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--fg);
+  position: absolute;
+  left: 8px;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.hamburger-line:nth-child(1) {
+  top: 12px;
+}
+
+.hamburger-line:nth-child(2) {
+  top: 19px;
+}
+
+.hamburger-line:nth-child(3) {
+  top: 26px;
+}
+
+.hamburger-btn.active .hamburger-line {
+  background: var(--fg);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(1) {
+  top: 19px;
+  transform: rotate(45deg);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(3) {
+  top: 19px;
+  transform: rotate(-45deg);
+}
+
+/* Focus states */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Hero specific styles */
+.hero-pattern {
+  background-image:
+    radial-gradient(
+      ellipse at 30% 20%,
+      rgba(184, 148, 78, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 70% 80%,
+      rgba(107, 142, 107, 0.1) 0%,
+      transparent 50%
+    );
+}
+
+.decorative-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+}
+
+/* Floating Animation for Cards */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Gradient Text (Optional, for emphasis) */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Highlights Section Styles */
+.highlight-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px 16px;
+  /* More vertical padding */
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(45, 38, 33, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  /* Subtle border */
+}
+
+.highlight-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(45, 38, 33, 0.1);
+}
+
+.highlight-icon-box {
+  width: 64px;
+  height: 64px;
+  background: var(--bg-alt);
+  /* Light beige background */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.highlight-icon-box svg {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+  /* Icon color */
+}
+
+.highlight-title {
+  font-size: 1.125rem;
+  /* 18px */
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.highlight-subtitle {
+  font-size: 0.875rem;
+  /* 14px */
+  color: var(--fg-light);
+  line-height: 1.5;
+}
+
+/* Room Card Styles */
+.room-card {
+  background: var(--card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(45, 38, 33, 0.06);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--border);
+}
+
+.room-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(45, 38, 33, 0.12);
+}
+
+.room-img-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.room-card img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.room-card:hover img {
+  transform: scale(1.05);
+}
+
+.room-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  z-index: 10;
+}
+
+.amenity-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--fg-light);
+  background: var(--bg-alt);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.amenity-tag svg {
+  color: var(--green);
+}
+
+/* Gallery Grid (Dining Images) */
+.gallery-item {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+}
+
+.gallery-item img {
+  transition: transform 0.5s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Lightbox (Needs JS integration later) */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(45, 38, 33, 0.95);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Service Cards */
+.service-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Service Icon - Fixed Hover State */
+.service-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  background: var(--bg-alt);
+  color: var(--accent);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  background: var(--accent);
+  color: white;
+  /* Changes text color, but for SVG we need specific target */
+}
+
+/* Target SVG inside the icon */
+.service-card:hover .service-icon svg {
+  color: white;
+}
+
+/* Dish List Item */
+.dish-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.dish-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--accent) / 10;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Gallery Grid (Dining Images) */
+.gallery-item {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+}
+
+.gallery-item img {
+  transition: transform 0.5s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Lightbox (Needs JS integration later) */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(45, 38, 33, 0.95);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Service Cards */
+.service-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Service Icon - Fixed Hover State */
+.service-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  background: var(--bg-alt);
+  color: var(--accent);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  background: var(--accent);
+  color: white;
+  /* Changes text color, but for SVG we need specific target */
+}
+
+/* Target SVG inside the icon */
+.service-card:hover .service-icon svg {
+  color: white;
+}
+
+/* Dish List Item */
+.dish-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.dish-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--accent) / 10;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Location Attraction Card */
+.location-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.location-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.distance-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.info-box {
+  background: linear-gradient(
+    135deg,
+    rgba(184, 148, 78, 0.08),
+    rgba(107, 142, 107, 0.08)
+  );
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+/* Map Container */
+.map-wrapper {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  min-height: 400px;
+}
+
+/* Policy Cards */
+.policy-item {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px;
+  border-left: 4px solid var(--accent);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  height: 100%;
+}
+
+.policy-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.policy-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-alt);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+
+/* TESTIMONIAL CARD STYLES */
+
+/* Force Slick Slider to use Flexbox for Equal Heights */
+#testimonial-slider .slick-track {
+  display: flex !important;
+}
+
+#testimonial-slider .slick-slide {
+  float: none;
+  /* Override default float */
+  height: auto;
+  display: flex;
+}
+
+.testimonial-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(45, 38, 33, 0.06);
+  border: 1px solid var(--border);
+  margin: 0 15px;
+  /* Spacing between slides */
+  height: 100%;
+  /* Fill the slide height */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Push author section to bottom if text is short */
+.testimonial-text {
+  font-size: 1rem;
+  color: var(--fg-light);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  flex-grow: 1;
+  /* Takes available space */
+}
+
+.author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+/* ARROW STYLES (Using Font Awesome) */
+.slick-prev,
+.slick-next {
+  width: 48px;
+  height: 48px;
+  background: var(--card);
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  transition: all 0.3s ease;
+  /* Center the icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Remove default Slick image background */
+.slick-prev:before,
+.slick-next:before {
+  display: none;
+}
+
+/* Style the Font Awesome icon */
+.slick-arrow i {
+  color: var(--fg);
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background: var(--accent);
+  box-shadow: 0 8px 20px rgba(184, 148, 78, 0.25);
+}
+
+.slick-arrow:hover i {
+  color: white;
+}
+
+.slick-prev {
+  left: -25px;
+}
+
+.slick-next {
+  right: -25px;
+}
+
+/* Dots styling */
+.slick-dots {
+  bottom: -50px;
+}
+
+.slick-dots li button:before {
+  font-size: 10px;
+  color: var(--muted);
+  opacity: 1;
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--accent);
+  opacity: 1;
+  font-size: 12px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Manrope", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(184, 148, 78, 0.1);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+
+/* Contact Info Card */
+.contact-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+}
+
+.contact-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--accent) / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-left-box {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 980px) {
+  .contact-left-box {
+    width: 100%;
+  }
+}
+
+/* Footer Styles */
+footer {
+  background: var(--fg);
+  /* Dark background using the main text color variable */
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.footer-link:hover {
+  color: var(--accent);
+}
+
+.footer-title {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: var(--accent);
+  transform: translateY(-3px);
+}
+
+hr.footer-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+}

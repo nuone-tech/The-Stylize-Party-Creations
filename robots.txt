@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /assets/php/ # Hide your backend logic folder if you have one
+Disallow: /admin/      # Hide your admin dashboard if applicable
+
+Sitemap: https://battaramullaboutiquevilla.lk/sitemap.xml
